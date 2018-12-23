@@ -4,10 +4,27 @@ title: About
 sidebar_link: true
 ---
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it
-  for your own use upon downloading. Carry on!
-</p>
 
-To make pages show up in the sidebar, add `sidebar_link: true` to the front
-matter.
+**Academic Experience**
+
+* 2018 - Now: Msc. in [Data Science, Birkbeck, University of London](http://www.bbk.ac.uk/study/2019/postgraduate/programmes/TMSDATSC_C)
+
+* 2009 - 2014: B.A. in Mathematics and Philosophy, St. John's College, Maryland, United States
+
+* 2011 - 2012: Academic Year at Bard College Berlin, Berlin, Germany
+
+
+**Work Experience**
+
+* 2015 - Now: Compliance Associate at Goldman Sachs International 
+
+
+You can also find me on:
+
+* [Github](https://github.com/yanniey)
+
+* [Linkedin](https://www.linkedin.com/in/anyi-g-71a45b28/)
+
+* [Photography](http://anyiguo.com)
+
+

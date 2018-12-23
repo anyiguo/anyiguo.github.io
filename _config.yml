@@ -3,22 +3,32 @@ markdown:         kramdown
 highlighter:      rouge
 
 # Setup
-title:            Hydeout
-tagline:          'A Jekyll theme'
-description:      'The <a href="http://hyde.getpoole.com" target="_blank">Hyde</a> theme for <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, refreshed.'
-url:              https://fongandrew.github.io
-baseurl:          '/hydeout'
+title:            Anyi Guo
+tagline:          'Data Science & Programming'
+description:      'A study blog for data sicence projects'
+url:              http://anyiguo.github.io
+# baseurl:          '/'
                   # the optional subpath of your site, e.g. "/blog"
                   # NB: This applies to all pages in your Jekyll site.
                   # If you want to move just the blog index pages but keep
                   # other pages at root, see the paginate_path and
                   # sidebar_blog_link below.
+#disqus
+comments: true
+# disqus.shortname: anyiguo-1
+disqus:
+  shortname: anyiguo-1
+
+# github pages
+remote_theme: fongandrew/hydeou
 
 author:
-  name:           'Andrew Fong'
-  url:            https://twitter.com/fongandrewc
+  name:           'Anyi Guo'
+  contact:
+    linkedin:  https://www.linkedin.com/in/anyi-g-71a45b28/
+    github:    https://github.com/yanniey
 
-paginate:         5
+paginate:         10
 # paginate_path:    '/page:num'
                     # Or '/blog/page:num' if you want to move your index pages
 
