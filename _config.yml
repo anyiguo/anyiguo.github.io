@@ -20,7 +20,7 @@ disqus:
   shortname: anyiguo-1
 
 # github pages
-remote_theme: fongandrew/hydeou
+remote_theme: fongandrew/hydeout
 
 author:
   name:           'Anyi Guo'
