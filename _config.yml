@@ -38,6 +38,7 @@ plugins:
   - jekyll-feed
   - jekyll-gist
   - jekyll-paginate
+  - jemoji
 
 # Sidebar link settings
 sidebar_home_link:  true

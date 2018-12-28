@@ -10,6 +10,8 @@ image:
 date: 2018-10-25T00:17:09+01:00
 ---
 
+:woman_student:
+
 ### Objective:
 Use Machine Learning to process and transform Pima Indian Diabetes data to create a prediction model. This model must predict which people are likely to develop diabetes with > 70% accuracy (i.e. accuracy in the confusion matrix).
 
