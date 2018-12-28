@@ -6,7 +6,7 @@ highlighter:      rouge
 title:            Anyi Guo
 tagline:          'Data Science & Programming'
 description:      'A study blog for data sicence projects'
-url:              http://anyiguo.github.io
+url:              http://guoanyi.com
 # baseurl:          '/'
                   # the optional subpath of your site, e.g. "/blog"
                   # NB: This applies to all pages in your Jekyll site.
@@ -15,7 +15,6 @@ url:              http://anyiguo.github.io
                   # sidebar_blog_link below.
 #disqus
 comments: true
-# disqus.shortname: anyiguo-1
 disqus:
   shortname: anyiguo-1
 
@@ -31,6 +30,9 @@ author:
 paginate:         10
 # paginate_path:    '/page:num'
                     # Or '/blog/page:num' if you want to move your index pages
+
+# Google analytics
+google_analytics: UA-15164309-13
 
 plugins:
   - jekyll-feed
