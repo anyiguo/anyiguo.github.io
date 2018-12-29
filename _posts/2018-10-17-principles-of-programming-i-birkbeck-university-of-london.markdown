@@ -3,7 +3,7 @@ layout: post
 title: "Principles of Programming I, Birkbeck, University of London"
 modified:
 category: Python
-excerpt: Programming in Python, part of Year 1 Term 1 Course for Msc. of Data Science
+excerpt: Programming in Python, part of Year 1 course for Msc. of Data Science
 tags: [Python, Programming]
 image:
   feature:
