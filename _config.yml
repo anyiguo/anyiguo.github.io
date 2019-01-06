@@ -5,7 +5,7 @@ highlighter:      rouge
 # Setup
 title:            Anyi Guo
 tagline:          'Data Science & Programming'
-description:      'A study blog for data sicence projects'
+description:      'A study blog for data science projects'
 url:              http://guoanyi.com
 # baseurl:          '/'
                   # the optional subpath of your site, e.g. "/blog"
