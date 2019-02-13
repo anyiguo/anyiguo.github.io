@@ -86,7 +86,7 @@ Afterwards I looked at the course's discussion forum and found this helpful post
 ## Week 2 Notes
 
 ### Preprossing data with caret
-```{r}
+```r
 library(caret)
 library(kernlab)
 data(spam)
@@ -99,7 +99,7 @@ hist(training$capitalAve,main="",xlab="avg. capital run length")
 The histogram shows that the data are heavily skewed to the left. 
 
 #### Standardizing the variables (so that they have `mean = 0` and `sd=1`)
-```{r}
+```r
 trainCapAve<-training$capitalAve
 trainCapAveS<-(trainCapAve-mean(trainCapAve))/sd(trainCapAve)
 mean(trainCapAveS)
@@ -107,14 +107,14 @@ sd(trainCapAveS)
 ```
 
 #### Standardizing the test set, using mean and sd of the training set. This means that the standardized test cap will not be exactly the same as that of the training set, but they should be similar. 
-```{r}
+```r
 testCapAve<-testing$capitalAve
 testCapAveS<-(testCapAve-mean(trainCapAve))/sd(trainCapAve)
 mean(testCapAveS)
 ```
 
 #### Use preprocess() function to do the standardization on the training set. The result is the same as using the above functions
-```{r}
+```r
 preObj<-preProcess(training[,-58],method=c("center","scale"))
 trainCapAveS<-predict(preObj,training[,-58])$capitalAve
 mean(trainCapAveS)
@@ -124,7 +124,7 @@ sd(trainCapAveS)
 
 Note that `mean()` is not equal to 0 on the testing set, and `sd` is not equal to 1.
 
-```{r}
+```r
 testCapAveS<-predict(preObj,testing[,-58])$capitalAve
 mean(testCapAveS)
 sd(testCapAveS)
@@ -132,7 +132,7 @@ sd(testCapAveS)
 
 #### Use `preProcess()` directly when building a model
 
-```{r}
+```r
 set.seed(1)
 model<-train(type ~.,data=training,preProcess=c("center","scale"),method="glm")
 model
@@ -141,7 +141,7 @@ model
 #### Standardising - Box-Cox Transforms
 
 This transforms the data into normal shape - i.e. bell shape
-```{r}
+```r
 preObj<-preProcess(training[,-58],method=c("BoxCox"))
 trainCapAveS<-predict(preObj,training[,-58])$capitalAve
 par(mfrow=c(1,2))
@@ -153,7 +153,7 @@ qqnorm(trainCapAveS)
 
 `knnImpute` uses the average of the k-nearest neighbours to impute the data where it's not available. 
 
-```{r}
+```r
 set.seed(1)
 
 # Make some value NAs
@@ -173,7 +173,7 @@ capAveTruth<-(capAveTruth-mean(capAveTruth))/sd(capAveTruth)
 Look at the difference at the imputed value (`capAve`) and the true value (`capAveTruth`), using `quantile()` function.
 
 If the values are all relatively small, then it shows that imputing data works (i.e. doesn't change the dataset too much).
-```{r}
+```r
 quantile(capAve-capAveTruth)
 ```
 
@@ -198,7 +198,7 @@ quantile(capAve-capAveTruth)
    * new features should be added to data frames
 
 3. An example of feature creation
-        ```{r}
+        ```r
         library(ISLR)
         library(caret)
         data(Wage)
@@ -210,7 +210,7 @@ quantile(capAve-capAveTruth)
     
     The `jobclass` column is chacracters, so we can convert it to dummy variable with `dummyVars` function
     
-    ```{r}
+    ```r
     dummies<-dummyVars(wage ~ jobclass,data=training)
     head(predict(dummies,newdata=training))
     ```
@@ -219,7 +219,7 @@ quantile(capAve-capAveTruth)
     
     If nsv (`nearZeroVar`) returns TRUE, then this feature is not important and thus can be removed. 
     
-    ```{r}
+    ```r
     nsv<-nearZeroVar(training,saveMetrics = TRUE)
     nsv
     ```
@@ -228,20 +228,20 @@ quantile(capAve-capAveTruth)
     First column means `age`
     Second column means `age^2`
     Third column means `age^3`
-    ```{r}
+    ```r
     library(splines)
     bsBasis<-bs(training$age,df=3)
     bsBasis
     ```
     #### Fitting curves with splines
-    ```{r}
+    ```r
     lm1<-lm(wage~bsBasis,data=training)
     plot(training$age,training$wage,pch=19,cex=0.5)
     points(training$age,predict(lm1,newdata=training),col="red",pch=19,cex=0.5)
     ```
     #### splines on the test set.
     Note that we are using the same `bsBasis` as is created in the training dataset
-    ```{r}
+    ```r
     predict(bsBasis,age=testing$age)
     ```
 
@@ -250,7 +250,7 @@ quantile(capAve-capAveTruth)
 1. Find features which are correlated
 
 `which()` returns the list of features with correlation > 0.8
-```{r}
+```r
 library(caret)
 library(kernlab)
 data(spam)
@@ -266,13 +266,13 @@ which(M>0.8,arr.ind=T)
   
   Take a look at the correlated features:
   
-```{r}
+```r
   names(spam)[c(34,32,40)]
   plot(spam[,34],spam[,32])
 ```
 
   Apply PCA in R: `prcomp()`
-```{r}
+```r
 smallSpam<-spam[,c(34,32)]
 prComp<-prcomp(smallSpam)
 plot(prComp$x[,1],prComp$x[,2])
@@ -280,21 +280,21 @@ prComp$rotation
 ```
  
  #### PCA on spam data
-```{r}
+```r
 typeColor<-((spam$type=="spam")*1+1)
 prComp<-prcomp(log10(spam[,-58]+1))
 plot(prComp$x[,1],prComp$x[,2],col=typeColor,xlab="PC1",ylab="PC2")
 ```
 
   #### PCA with caret, preProcess()
-```{r}
+```r
 preProc<-preProcess(log10(spam[,-58]+1),method="pca",pcaComp = 2)
 spamPC<-predict(preProc,log10(spam[,-58]+1))
 plot(spamPC[,1],spamPC[,2],col=typeColor)
 ```
 
   #### Preprocessing with PCA to create model based on the training set
-```{r,warning=FALSE}
+```r
 preProc<-preProcess(log10(training[,-58]+1),method="pca",pcaComp=2)
 trainPC<-predict(preProc,log10(training[,-58]+1))
 modelFit <- train(x = trainPC, y = training$type,method="glm")
@@ -303,7 +303,7 @@ modelFit <- train(x = trainPC, y = training$type,method="glm")
   #### Preprocessing with PCA to use on the testing set
   Note that we should use the same PCA procedure (`preProc`) when using predict()
  on the testing set
-```{r}
+```r
 testPC<-predict(preProc,log10(testing[,-58]+1))
 confusionMatrix(testing$type,predict(modelFit,testPC))
 ```
@@ -312,7 +312,7 @@ confusionMatrix(testing$type,predict(modelFit,testPC))
   
   #### Alternative: preProcess with PCA during the training process (instead of doing PCA first, then do the training)
   
-```{r,warning=FALSE}
+```r
 modelFit <- train(x = trainPC, y = training$type,method="glm",preProcess="pca")
 confusionMatrix(testing$type,predict(modelFit,testPC))
 ```
@@ -320,7 +320,7 @@ confusionMatrix(testing$type,predict(modelFit,testPC))
 ### Predicting with Regression
 
 Use the fainthful eruption data in caret
-```{r}
+```r
 library(caret)
 data(faithful)
 set.seed(333)
@@ -332,31 +332,31 @@ head(trainFaith)
 
 #### Plot eruption duration vs. waiting time.
 You can see that there's a roughly linear relationship between the two variables. 
-```{r}
+```r
 plot(trainFaith$waiting,trainFaith$eruptions,pch=19,col="blue",xlab="waiting",ylab="eruption duration")
 ```
 
 #### Fit a linear regression model
-```{r}
+```r
 lm1<-lm(eruptions~waiting,data=trainFaith)
 summary(lm1)
 ```
 
 #### Plot the model fit
-```{r}
+```r
 plot(trainFaith$waiting,trainFaith$eruptions,pch=19,col="blue",xlab="waiting",ylab="eruption duration")
 lines(trainFaith$waiting,lm1$fitted,lwd=3)
 ```
 
 #### Predicting a new value with the linear regression model
 When `waiting time = 80`
-```{r}
+```r
 newdata<-data.frame(waiting=80)
 predict(lm1,newdata)
 ```
 
 #### Plot predictions - training vs testing set
-```{r}
+```r
 par(mfrow=c(1,2))
 # training
 plot(trainFaith$waiting,trainFaith$eruptions,pch=19,col="blue",main="training",xlab="waiting",ylab="eruption duration")
@@ -368,7 +368,7 @@ lines(testFaith$waiting,predict(lm1,newdata=testFaith),lwd=3)
 ```
 
 #### Get training & testing errors
-```{r}
+```r
 # RMSE on training
 sqrt(sum((lm1$fitted-trainFaith$eruptions)^2))
 # RMSE on testing
@@ -376,7 +376,7 @@ sqrt(sum((predict(lm1,newdata=testFaith)-testFaith$eruptions)^2))
 ```
 
 #### Prediction intervals
-```{r}
+```r
 pred1<-predict(lm1,newdata=testFaith,interval="prediction")
 ord<-order(testFaith$waiting)
 plot(testFaith$waiting,testFaith$eruptions,pch=19,col="blue")
@@ -384,14 +384,14 @@ matlines(testFaith$waiting[ord],pred1[ord,],type="l",col=c(1,2,2),lty=c(1,1,1),l
 ```
 
 #### Same process with caret
-```{r}
+```r
 modFit<-train(eruptions~waiting,data=trainFaith,method="lm")
 summary(modFit$finalModel)
 ```
 
 ## Predicting with regression, multiple covariates
 Use the wages dataset in ISLR package
-```{r}
+```r
 library(ISLR)
 library(ggplot2)
 library(caret)
@@ -407,29 +407,29 @@ dim(testing)
 ```
 
 #### Feature plot on the wages dataset
-```{r}
+```r
 featurePlot(x=training[,c("age","education","jobclass")],y=training$wage,plot="pairs")
 ```
 
 #### Plot age vs. wage
-```{r}
+```r
 qplot(age,wage,data=training)
 ```
 
 #### Plot age vs wage, color by jobclass
 We can see that the outliners are mostly for people in informational jobclass
-```{r}
+```r
 qplot(age,wage,color=jobclass,data=training)
 ```
 
 #### Plot age vs. wage, color by education
 You can see that the outliners are mostly advance degree education
-```{r}
+```r
 qplot(age,wage,color=education,data=training)
 ```
 
 #### Fit a linear model
-```{r}
+```r
 modFit<-train(wage~age+jobclass+education,method="lm",data=training)
 finMod<-modFit$finalModel
 print(modFit)
@@ -439,23 +439,23 @@ plot(finMod,1,pch=19,cex=0.5,col="#00000010")
 
 
 #### Color by variables not used in the model
-```{r}
+```r
 qplot(finMod$fitted,finMod$residuals,color=race,data=training)
 ```
 
 #### Plot by index (i.e. which rows in the dataframe they are at)
-```{r}
+```r
 plot(finMod$residuals,pch=19)
 ```
 
 #### Predicted vs. truth in test set
-```{r}
+```r
 pred<-predict(modFit,testing)
 qplot(wage,pred,color=year,data=testing)
 ```
 
 ### If you want to use all covariates (variables)
-```{r}
+```r
 modFitAll<-train(wage~.,data=training,method="lm")
 pred<-predict(modFitAll,newdata=testing)
 qplot(wage,pred,data=testing)
@@ -482,7 +482,7 @@ Stop splitting when the leaves are pure
   * 1 = no purity
   
 Example: Iris Data
-```{r, warning=FALSE}
+```r
 data(iris)
 library(ggplot2)
 library(caret)
@@ -497,7 +497,7 @@ testing<-iris[-inTrain,]
 qplot(Petal.Width,Sepal.Width,col=Species, data=training)
 ```
 Train the model
-```{r}
+```r
 #rpart is R's package for doing regressions
 modFit<-train(Species~.,method="rpart",data=training)
 print(modFit$finalModel)
@@ -507,13 +507,13 @@ plot(modFit$finalModel,uniform=TRUE,main="Classification Tree")
 text(modFit$finalModel,use.n=TRUE,all=TRUE,cex=0.8)
 ```
 Use the rattle package to make the trees look better
-```{r}
+```r
 library(rattle)
 fancyRpartPlot(modFit$finalModel)
 ```
 
 Predict new values
-```{r}
+```r
 predict(modFit,newdata=testing)
 ```
 
@@ -530,7 +530,7 @@ What is bagging?
 4. Bagging is more useful for non-linear functions
 
 Example with the Ozone data from ElemStatLearn package
-```{r}
+```r
 library(ElemStatLearn)
 data(ozone,package="ElemStatLearn")
 ozone<-ozone[order(ozone$ozone),]
@@ -539,7 +539,7 @@ ozone<-ozone[order(ozone$ozone),]
 We'll predict temperature based on zone
 
 ### Bagged loess
-```{r}
+```r
 ll<-matrix(NA,nrow=10,ncol=155)
 
 #we'll resample the data 10 times (loop 10 times)
@@ -557,7 +557,7 @@ for(i in 1:10){
 
 ### Bagged loess
 The red line is the bagged (average) line across the 10 resamples
-```{r}
+```r
 plot(ozone$ozone,ozone$temperature,pch=19,cex=0.5)
 for(i in 1:10){lines(1:155,ll[i,],col="grey",lwd=2)}
 lines(1:155,apply(ll,2,mean),col="red",lwd=2)
@@ -582,7 +582,7 @@ What is random forests?
 3. Overfitting
 
 Random Forest on Iris data
-```{r}
+```r
 data(iris)
 library(ggplot2)
 library(caret)
@@ -595,13 +595,13 @@ modFit<-train(Species~.,model="rf",prox=TRUE,data=training)
 ```
 
 ### Getting a single tree
-```{r}
+```r
 library(randomForest)
 getTree(modFit$finalModel,k=2)
 ```
 
 ### Class "centers"
-```{r}
+```r
 irisP<-classCenter(training[,c(3,4)],training$Species,modFit$finalModel$prox)
 irisP<-as.data.frame(irisP)
 irisP$Species<-rownames(irisP)
@@ -612,7 +612,7 @@ p+geom_point(aes(x=Petal.Width,y=Petal.Length,col=Species),size=5,shape=4,data=i
 ```
 
 ### Predicting new values
-```{r}
+```r
 pred<-predict(modFit,testing)
 testing$preRight<-pred==testing$Species
 table(pred,testing$Species)
@@ -628,7 +628,7 @@ Boosting and random forest are two of the most accurate out of the box classifie
 3. Get a strong predictor
 
 ### Wage example for boosting
-```{r}
+```r
 library(ISLR)
 data(Wage)
 library(ggplot2)
@@ -644,7 +644,7 @@ testing<-Wage[-inTrain,]
 ### Fit the boosting model
 `gbm` is boosting for tree models.
 
-```{r,warning=FALSE}
+```r
 modFit<-train(wage~.,data=training,method="gbm",verbose=FALSE)
 qplot(predict(modFit,testing),wage,data=testing)
 ```
@@ -667,7 +667,7 @@ qplot(predict(modFit,testing),wage,data=testing)
 **Naive Bayes** assumes that all features are independent of each other - useful for binary or categorical data, e.g. text classification
 
 Model based prediction with Iris data
-```{r}
+```r
 data(iris)
 library(ggplot2)
 library(caret)
@@ -690,7 +690,7 @@ pnb<-predict(modnb,testing)
 table(plda,pnb)
 ```
 
-```{r}
+```r
 equalPredictions =(plda==pnb)
 qplot(Petal.Width,Sepal.Width,col=equalPredictions,data=testing)
 ```
@@ -736,14 +736,17 @@ In `caret` methods for penalised regularization models are:
 * different classifiers: model stacking, model ensembling
 
 3. example with wage data
-```{r}
+```r
 library(ISLR)
 data(Wage)
 library(ggplot2)
 library(caret)
 Wage<-subset(Wage,select=-c(logwage))
+```
 
-# Create a building data set (which is split into training and testing data) and validation set
+Create a building data set (which is split into training and testing data) and validation set
+
+```r
 inBuild<-createDataPartition(y=Wage$wage,p=0.7,list=FALSE)
 validation<-Wage[-inBuild,]
 buildData<-Wage[inBuild,]
@@ -756,13 +759,13 @@ dim(training)
 ```
 
 Build two different models: linear regression + random forest
-```{r}
+```r
 mod1<-train(wage~.,method="glm",data=training)
 mod2<-train(wage~.,method="rf",data=training,trControl=trainControl(method="cv"),number=3)
 ```
 
 Plot the two different models on the same chart
-```{r}
+```r
 pred1<-predict(mod1,testing)
 pred2<-predict(mod2,testing)
 qplot(pred1,pred2,colour=wage,data= testing)
@@ -771,14 +774,14 @@ qplot(pred1,pred2,colour=wage,data= testing)
 #### Fit a model that combines two different predictors
 
 First, create a new dataframe that is the prediction of the original two models. Then train a new model based on the new dataframe. 
-```{r}
+```r
 predDF<-data.frame(pred1,pred2,wage=testing$wage)
 combModFit<-train(wage~.,method="gam",data=predDF)
 combPred<-predict(combModFit,predDF)
 ```
 
 #### Testing erros between the two original predictors and the combined predictor
-```{r}
+```r
 # linear regression
 sqrt(sum((pred1-testing$wage)^2))
 
@@ -792,7 +795,7 @@ sqrt(sum((combPred-testing$wage)^2))
 We can see that the combined predictor has the lowest testing error rate
 
 #### Predict on validation set
-```{r}
+```r
 pred1V<-predict(mod1,validation)
 pred2V<-predict(mod2,validation)
 predVDF<-data.frame(pred1=pred1V,pred2=pred2V)
@@ -800,7 +803,7 @@ combPredV<-predict(combModFit,predVDF)
 ```
 
 #### Error rate on validation set
-```{r}
+```r
 # linear regression
 sqrt(sum((pred1V-validation$wage)^2))
 # random forest
@@ -818,7 +821,7 @@ Typical model for binary/multiclass data
 
 ## Forecasting on time series & spatial data
 1. example: predict the price of Google stock 
-```{r}
+```r
 library(quantmod)
 from.dat<-as.Date("01/01/08",format="%m/%d/%y")
 to.dat<-as.Date("12/31/13",format="%m/%d/%y")
@@ -826,7 +829,7 @@ getSymbols("GOOG",src="yahoo",from=from.dat,to=to.dat)
 ```
 
 #### Summarize monthly opening price for Google, and store it as time series
-```{r}
+```r
 mGoog<-to.monthly(GOOG)
 googOpen<-Op(mGoog)
 ts1<-ts(googOpen,frequency = 12)
@@ -835,19 +838,19 @@ plot(ts1,xlab="Year+1",ylab="GOOG")
 
 #### Decompose a time series into parts
 trend, seasonal and random 
-```{r}
+```r
 plot(decompose(ts1),xlab="Years+1")
 ```
 
 #### Build training and test sets for the prediction
-```{r}
+```r
 ts1Train<-window(ts1,start=1,end=5)
 ts1Test<-window(ts1,start=5,end=(7-0.01))
 ts1Train
 ```
 
 #### Simple moving average
-```{r}
+```r
 plot(ts1Train)
 lines(ma(ts1Train,order=3),col="red")
 ```
@@ -855,7 +858,7 @@ lines(ma(ts1Train,order=3),col="red")
 #### Exponential smoothing (weights nearby time points more than points that are far away)
 
 We can get a range of the possible 
-```{r}
+```r
 library(forecast)
 ets1<-ets(ts1Train,model="MMM")
 fcast<-forecast(ets1)
