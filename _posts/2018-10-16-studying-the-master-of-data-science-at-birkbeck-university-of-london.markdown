@@ -15,6 +15,11 @@ Year 1 Term 1 Courses:
 2. [Principles of Programming I (POPI)](http://guoanyi.com/programming/principles-of-programming-i-birkbeck-university-of-london/)  [Github repo](https://github.com/yanniey/Birkbeck-Principles-of-Programming-I)
 3. [Fundamentals of Computing (FOC)](http://guoanyi.com/programming/fundamentals-of-computing-birkbeck-university-of-london/)  [Github repo](https://github.com/yanniey/Birkbeck-Fundamentals-of-Computing)
 
+Year 1 Term 2 Courses:
+1. [Computer Systems (CS)](https://github.com/yanniey/Birkbeck-Computer-Systems)
+2. [Programming with Data (PWD)](https://github.com/yanniey/Birkbeck-Programming-with-Data)
+3. [Fundamentals of Computing (FOC II)](https://github.com/yanniey/Birkbeck-Fundamentals-of-Computing)
+
 #### Compulsory modules:
 
 1. Big Data Analytics using R

@@ -4,8 +4,8 @@ highlighter:      rouge
 
 # Setup
 title:            Anyi Guo
-tagline:          'Data Science & Programming'
-description:      'A study blog for data science projects'
+tagline:          'From Philosophy to Dining Philosophers'
+description:      'A study blog for data science and programming projects'
 url:              http://guoanyi.com
 # baseurl:          '/'
                   # the optional subpath of your site, e.g. "/blog"
