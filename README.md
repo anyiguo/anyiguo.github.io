@@ -1,1 +1,1 @@
-My personal blog, based on Jekyll.
+[My personal website on Data Science and Programming](http://guoanyi.com), written in Ruby and running on Jekyll.
